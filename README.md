@@ -12,7 +12,7 @@
 <br><br>
 
 <div style="text-align: center;">
-  <a href="https://youtu.be/7KIrEKVB_8Q">
+  <a href="https://youtu.be/HWPsAPV5Pfc">
     <img src="https://img.youtube.com/vi/HWPsAPV5Pfc/maxresdefault.jpg" alt="Watch the video" height="300px">
   </a>
   <br>
