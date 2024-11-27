@@ -80,5 +80,56 @@ struct LoginView: View {
         }
     }
 
+// Login Function
+    private func login() {
+        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+            } else {
+                isLoggedIn = true
+            }
+        }
+    }
+
+    // Fetch Dogs from Firestore
+    private func fetchDogs() {
+        let db = Firestore.firestore()
+        db.collection("Dogs").addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Error fetching dogs: \(error.localizedDescription)")
+                return
+            }
+
+            self.dogs = snapshot?.documents.map { doc in
+                Dog(id: doc.documentID, data: doc.data())
+            } ?? []
+        }
+    }
+
+    // Add a New Dog to Firestore
+    private func addDog(name: String) {
+        let db = Firestore.firestore()
+        let newDog = ["Name": name]
+
+        db.collection("Dogs").addDocument(data: newDog) { error in
+            if let error = error {
+                print("Error adding dog: \(error.localizedDescription)")
+            } else {
+                newDogName = "" // Clear the input field
+            }
+        }
+    }
+}
+
+// Dog Model
+struct Dog: Identifiable {
+    var id: String
+    var name: String
+
+    // Initialize from Firestore document
+    init(id: String, data: [String: Any]) {
+        self.id = id
+        self.name = data["Name"] as? String ?? "Unknown"
+    }
     
 }
